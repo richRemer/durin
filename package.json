@@ -1,6 +1,6 @@
 {
   "name": "durin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "password hashing",
   "main": "durin.js",
   "dependencies": {

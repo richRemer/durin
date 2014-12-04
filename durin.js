@@ -124,7 +124,7 @@ function createContext(opts) {
     result.verifyPassword = verifyPassword.bind(null, opts);
     prop.readonly(result, "iterations", opts.iterations);
     prop.readonly(result, "saltLength", opts.saltLength);
-    prop.readonly(result, "keyLEngth", opts.keyLength);
+    prop.readonly(result, "keyLength", opts.keyLength);
     
     return result;
 }

@@ -1,8 +1,21 @@
+const BITS_PER_BYTE = 8;        // yeah, duh, but it makes code more readable
+
 var durin = require(".."),
     expect = require("expect.js"),
     password = "password";
 
 describe("durin module", function() {
+    it("should have hash security properties", function() {
+        expect(durin.iterations).to.be.a("number");
+        expect(durin.saltLength).to.be.a("number");
+        expect(durin.keyLength).to.be.a("number");
+        expect(durin.iterations).to.be.above(0);
+        expect(durin.saltLength).to.be.above(0);
+        expect(durin.keyLength).to.be.above(0);
+        expect(durin.saltLength % BITS_PER_BYTE).to.be(0);
+        expect(durin.keyLength % BITS_PER_BYTE).to.be(0);
+    });
+
     it("should be a function", function() {
         expect(durin).to.be.a("function");
     });
@@ -33,7 +46,11 @@ describe("durin.hashPassword(string, function)", function() {
 });
 
 describe("durin.verifyPassword(string, string, function)", function() {
-    var hashOptions = {saltLength: 8, keyLength: 8, iterations: 1},
+    var hashOptions = {
+            saltLength: BITS_PER_BYTE,
+            keyLength: BITS_PER_BYTE,
+            iterations: 1
+        },
         hash;
     
     before(function(done) {
