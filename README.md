@@ -102,3 +102,7 @@ is false if the password could not be verified.  If the password is verified,
 the passed value will be the hash, which may be updated to meet configured
 security requirements.
 
+Potential Future Changes
+------------------------
+ * option to disable clear-text passwords
+ * break pbkdf2 into its own module and support plugins
