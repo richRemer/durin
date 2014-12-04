@@ -93,6 +93,8 @@ function verifyPassword(opts, password, hash, done) {
     if (H.iterations < opts.iterations) rehash = true;
 
     pbkdf2(password, H.salt, H.iterations, H.key.length, function(err, key) {
+        if (err) throw err;
+        
         if (key.toString("binary") === H.key) {
             if (rehash) {
                 opts.saltLength = Math.max(opts.saltLength, H.salt.length << 3);
