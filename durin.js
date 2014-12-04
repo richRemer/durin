@@ -98,9 +98,7 @@ function verifyPassword(opts, password, hash, done) {
                 opts.saltLength = Math.max(opts.saltLength, H.salt.length << 3);
                 opts.keyLength = Math.max(opts.keyLength, H.key.length << 3);
                 opts.iterations = Math.max(opts.iterations, H.iterations);
-                hashPassword(opts, password, function(hash) {
-                    done(hash);
-                });
+                hashPassword(opts, password, done);
             } else done(hash);
         } else {
             done(false);
