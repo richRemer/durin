@@ -73,4 +73,11 @@ describe("durin.verifyPassword(string, string, function)", function() {
             });
         });
     });
+
+    it("should not accept plaintext password", function(done) {
+        durin.verifyPassword(password, password, function(verified) {
+            expect(verified).to.be(false);
+            done();
+        });
+    });
 });

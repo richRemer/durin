@@ -86,7 +86,7 @@ function verifyPassword(opts, password, hash, done) {
     var H = parseHash(hash),
         rehash = false;
 
-    if (!H) return done(password === hash);
+    if (!H) return done(false);
 
     if (H.salt.length << 3 < opts.saltLength) rehash = true;
     if (H.key.length << 3 < opts.keyLength) rehash = true;
