@@ -123,6 +123,22 @@ function createContext(opts) {
         var combinedOpts = {};
         copy(combinedOpts, opts);
         copy(combinedOpts, newopts);
+
+        // normalize types
+        combinedOpts.iterations = parseInt(combinedOpts.iterations);
+        combinedOpts.saltLength = parseInt(combinedOpts.saltLength);
+        combinedOpts.keyLength = parseInt(combinedOpts.keyLength);
+        combinedOpts.disablePlaintext = combinedOpts.disablePlaintext !== false;
+
+        // validations
+        function validIters(val) { return val > 0; }
+        function validBits(val) { return val > 0 && val % 8 === 0; }
+
+        // ensure valid values
+        if (!validIters(combinedOpts.iterations)) throw new Error("invalid iterations");
+        if (!validBits(combinedOpts.saltLength)) throw new Error("invalid saltLength");
+        if (!validBits(combinedOpts.keyLength)) throw new Error("invalid keyLength");
+
         return createContext(combinedOpts);
     }
     
