@@ -55,7 +55,8 @@ Example - Configure hash security
 var durin = require("durin")({
         iterations: 125000,
         saltLength: 32,
-        keyLength: 512   
+        keyLength: 512,
+        disablePlaintext: true
     });
 ```
 
@@ -81,6 +82,14 @@ this is the minimum number of bits in a key for a hash to be considered secure.
 Number of bits to use for salting a new hash.  When verifying an existing hash,
 this is the minimum number of bits in a salt for a hash to be considered secure.
 
+**opts.disablePlaintext**
+
+Plaintext passwords will be accepted in place of a hash when this is set to
+false.
+
+### durin.disablePlaintext
+Read-only.  The value of the disablePlaintext option for the durin context.
+
 ### durin.hashPassword(password, done)
 Hash the password.  The callback gets the argument `(hash)`
 
@@ -104,5 +113,4 @@ security requirements.
 
 Potential Future Changes
 ------------------------
- * option to disable clear-text passwords
  * break pbkdf2 into its own module and support plugins

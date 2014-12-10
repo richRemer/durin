@@ -13,6 +13,9 @@ hashOptions.saltLength = 64;
 // chosen because it seems reasonable
 hashOptions.keyLength = 128;
 
+// minor security backstep, but great usability leap forward
+hashOptions.disablePlaintext = false;
+
 /**
  * Parse hash into a hash object.  Return the hash object, or false if the hash
  * format is not recognized.
@@ -83,10 +86,12 @@ function hashPassword(opts, password, done) {
  * @param {function} done
  */
 function verifyPassword(opts, password, hash, done) {
-    var H = parseHash(hash),
-        rehash = false;
-
-    if (!H) return done(false);
+    var H, rehash = false;
+    
+    if (!isHash(hash)) {
+        if (opts.disablePlaintext !== false) return done(false);
+        H = {salt: "", key: "", iterations: 0};
+    } else H = parseHash(hash);
 
     if (H.salt.length << 3 < opts.saltLength) rehash = true;
     if (H.key.length << 3 < opts.keyLength) rehash = true;
@@ -127,6 +132,7 @@ function createContext(opts) {
     prop.readonly(result, "iterations", opts.iterations);
     prop.readonly(result, "saltLength", opts.saltLength);
     prop.readonly(result, "keyLength", opts.keyLength);
+    prop.readonly(result, "disablePlaintext", opts.disablePlaintext);
     
     return result;
 }

@@ -14,6 +14,7 @@ describe("durin module", function() {
         expect(durin.keyLength).to.be.above(0);
         expect(durin.saltLength % BITS_PER_BYTE).to.be(0);
         expect(durin.keyLength % BITS_PER_BYTE).to.be(0);
+        expect(durin.disablePlaintext).to.be(false);
     });
 
     it("should be a function", function() {
@@ -26,6 +27,7 @@ describe("durin module", function() {
         expect(quickDurin.iterations).to.be(1);
         expect(quickDurin.saltLength).to.be(durin.saltLength);
         expect(quickDurin.keyLength).to.be(durin.keyLength);
+        expect(quickDurin.disablePlaintext).to.be(durin.disablePlaintext);
     });
 });
 
@@ -74,8 +76,17 @@ describe("durin.verifyPassword(string, string, function)", function() {
         });
     });
 
-    it("should not accept plaintext password", function(done) {
+    it("should accept plaintext password", function(done) {
         durin.verifyPassword(password, password, function(verified) {
+            expect(verified).to.be.a("string");
+                expect(durin.isHash(verified)).to.be(true);
+            done();
+        });
+    });
+    
+    it("should reject plaintext with disablePlaintext", function(done) {
+        var opts = {disablePlaintext: true};
+        durin(opts).verifyPassword(password, password, function(verified) {
             expect(verified).to.be(false);
             done();
         });
